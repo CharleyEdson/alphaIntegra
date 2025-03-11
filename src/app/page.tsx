@@ -5,13 +5,12 @@ import Header from '@/components/Header'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@/utils/supabase'
 import ThemeToggle from '@/components/ThemeToggle'
+import Link from 'next/link'
 
 export default async function Index() {
   const cookieStore = cookies()
 
   const canInitSupabaseClient = () => {
-    // This function is just for the interactive tutorial.
-    // Feel free to remove it once you have Supabase connected.
     try {
       createServerClient(cookieStore)
       return true
@@ -26,6 +25,12 @@ export default async function Index() {
     <div className="flex w-full flex-1 flex-col items-center gap-20">
       <nav className="flex h-16 w-full justify-center border-b border-b-foreground/10">
         <div className="flex w-full max-w-4xl items-center justify-between p-3 text-sm">
+          <div className="flex gap-4">
+            <Link href="/landing">Landing</Link>
+            <Link href="/home">Home</Link>
+            <Link href="/cash">Cash</Link>
+            <Link href="/tasks">Tasks</Link>
+          </div>
           {isSupabaseConnected && <AuthButton />}
         </div>
       </nav>
