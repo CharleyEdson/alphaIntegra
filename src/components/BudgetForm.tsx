@@ -21,8 +21,12 @@ export default function BudgetForm({
     const { data, error } = await supabase
       .from('budget_categories')
       .select('id, type')
-    if (error) console.error('Error fetching categories:', error)
-    else setCategories(data)
+
+    if (error) {
+      console.error('❌ Error fetching categories:', error)
+    } else {
+      setCategories(data) // Ensure we store { id: uuid, type: "FIXED" }
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -34,21 +38,21 @@ export default function BudgetForm({
         .update({
           name: formData.name,
           amount: Number(formData.amount),
-          category_id: formData.category_id, // Store category_id correctly
+          category_id: formData.category_id, // Ensure UUID is used
         })
         .eq('id', formData.id)
 
-      if (error) console.error('Error updating item:', error)
+      if (error) console.error('❌ Error updating item:', error)
     } else {
       const { error } = await supabase.from('budget_items').insert([
         {
           name: formData.name,
           amount: Number(formData.amount),
-          category_id: formData.category_id, // Store category_id correctly
+          category_id: formData.category_id, // Ensure UUID is used
         },
       ])
 
-      if (error) console.error('Error adding item:', error)
+      if (error) console.error('❌ Error adding item:', error)
     }
 
     setFormData({ id: null, name: '', amount: '', category_id: '' })
@@ -60,6 +64,7 @@ export default function BudgetForm({
       onSubmit={handleSubmit}
       className="mt-6 flex flex-col gap-4 rounded-lg bg-white p-6 shadow-md"
     >
+      {/* Name Field */}
       <input
         type="text"
         placeholder="Name"
@@ -82,10 +87,11 @@ export default function BudgetForm({
         {categories.map((cat) => (
           <option key={cat.id} value={cat.id}>
             {cat.type}
-          </option>
+          </option> // Store UUID but display type
         ))}
       </select>
 
+      {/* Amount Field */}
       <input
         type="number"
         placeholder="Amount"
