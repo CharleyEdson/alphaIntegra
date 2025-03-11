@@ -23,7 +23,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex w-full items-center justify-between bg-gray-900 p-4 text-white">
+    <nav className="flex w-full items-center justify-between bg-[#F8F9FA] p-4 text-[#0077B6] shadow-md">
       <div className="flex gap-6">
         <Link href="/home" className="hover:underline">
           Home
